@@ -6,12 +6,14 @@ import Navbar from "react-bootstrap/Navbar";
 import Row from "react-bootstrap/Row";
 import { useState } from "react";
 import data from "./data.js";
-import Shoe from "./Shoe.js";
-import { Routes, Route, Link } from "react-router-dom";
-import Detail from "./Detail.js";
+import Shoe from "./component/Shoe.js";
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import Detail from "./pages/Detail.js";
+import About from "./pages/About.js";
 
 function App() {
     let [shoes] = useState(data);
+    let navigate = useNavigate(); // hook
 
     return (
         <div className="App">
@@ -19,8 +21,10 @@ function App() {
                 <Container>
                     <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Link to="/">홈</Link>
-                        <Link to="/detail">상세페이지</Link>
+                        <Nav.Link onClick={() => navigate("/")}>홈</Nav.Link>
+                        <Nav.Link onClick={() => navigate("/detail")}>
+                            상세페이지
+                        </Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
@@ -48,6 +52,12 @@ function App() {
                     }
                 />
                 <Route path="/detail" element={<Detail></Detail>} />
+
+                <Route path="/about" element={<About></About>}> 
+                    <Route path="/about/member" element={<div>멤버임</div>} />
+                    <Route path="/about/location" element={<div>위치임</div>} />
+                </Route>
+                <Route path="*" element={<div>없는페이지요(404 page)</div>} />
             </Routes>
         </div>
     );
