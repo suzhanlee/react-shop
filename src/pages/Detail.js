@@ -1,14 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Detail(props) {
+    // useEffect(() => {
+    //     // mount, update 시 실행 => 랜더링이 모두 된 후에 실행된다!
+    //     setTimeout(() => {
+    //         document.querySelector(".alert").style.display = "none";
+    //     }, 2000);
+    // });
+
+    let [alert, setAlert] = useState(true);
 
     useEffect(() => {
         // mount, update 시 실행 => 랜더링이 모두 된 후에 실행된다!
         setTimeout(() => {
-            document.querySelector(".alert").style.display = "none";
-        }, 2000);
+            setAlert(false);
+        }, 2000),
+            [alert];
     });
 
     let { id } = useParams();
@@ -18,7 +27,9 @@ export default function Detail(props) {
 
     return (
         <div className="container">
-            <div className="alert alert-warning">2초 이내 구매시 할인</div>
+            {alert == true ? (
+                <div className="alert alert-warning">2초 이내 구매시 할인</div>
+            ) : null}
             <div className="row">
                 <div className="col-md-6">
                     <img
