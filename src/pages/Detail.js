@@ -14,22 +14,42 @@ export default function Detail(props) {
 
     useEffect(() => {
         // mount, update 시 실행 => 랜더링이 모두 된 후에 실행된다!
-        setTimeout(() => {
+        let timer = setTimeout(() => {
             setAlert(false);
-        }, 2000),
-            [alert];
-    });
+            return () => {};
+        }, 2000);
+    }, []);
 
     let { id } = useParams();
     let findProduct = props.shoes.find((s) => {
         return s.id == id;
     });
 
+    let [quantity, setQuantity] = useState(0);
+    let [quantityAlert, setQuantityAlert] = useState(false);
+    useEffect(() => {
+        if (!Number.isInteger(Number(quantity))) {
+            setQuantityAlert(true);
+        } else {
+            setQuantityAlert(false);
+        }
+    }, [quantity]);
+
     return (
         <div className="container">
             {alert == true ? (
                 <div className="alert alert-warning">2초 이내 구매시 할인</div>
             ) : null}
+            {quantityAlert == true ? (
+                <div className="alert alert-warning">숫자만 입력하세요</div>
+            ) : null}
+            <input
+                onChange={(e) => {
+                    setQuantity(e.target.value);
+                }}
+                className="quantity"
+                placeholder="숫자 입력 창"
+            ></input>
             <div className="row">
                 <div className="col-md-6">
                     <img
