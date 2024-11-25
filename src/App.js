@@ -6,8 +6,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useState } from "react";
+import data from "./data.js";
+import Shoe from "./Shoe.js";
 
 function App() {
+    let [shoes] = useState(data);
+
     return (
         <div className="App">
             <Navbar bg="dark" data-bs-theme="dark">
@@ -24,30 +29,15 @@ function App() {
 
             <Container>
                 <Row>
-                    <Col>
-                        <img
-                            src="https://codingapple1.github.io/shop/shoes1.jpg"
-                            width="80%"
-                        ></img>
-                        <h4>상품명</h4>
-                        <p>상품설명</p>
-                    </Col>
-                    <Col>
-                        <img
-                            src="https://codingapple1.github.io/shop/shoes2.jpg"
-                            width="80%"
-                        ></img>
-                        <h4>상품명</h4>
-                        <p>상품설명</p>
-                    </Col>
-                    <Col>
-                        <img
-                            src="https://codingapple1.github.io/shop/shoes3.jpg"
-                            width="80%"
-                        ></img>
-                        <h4>상품명</h4>
-                        <p>상품설명</p>
-                    </Col>
+                    {shoes.map((s, idx) => {
+                        return (
+                            <Shoe
+                                idx={idx + 1}
+                                name={s.title}
+                                description={s.content}
+                            ></Shoe>
+                        );
+                    })}
                 </Row>
             </Container>
         </div>
