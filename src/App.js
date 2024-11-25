@@ -51,13 +51,17 @@ function App() {
                         </>
                     }
                 />
-                <Route path="/detail" element={<Detail></Detail>} />
+                <Route
+                    path="/detail/:id"
+                    element={<Detail shoes={shoes}></Detail>}
+                />
 
-                <Route path="/about" element={<About></About>}> 
-                    <Route path="/about/member" element={<div>멤버임</div>} />
-                    <Route path="/about/location" element={<div>위치임</div>} />
+                <Route path="/about" element={<About></About>}>
+                    <Route path="member" element={<div>멤버임</div>} />
+                    <Route path="location" element={<div>위치임</div>} />
                 </Route>
-                <Route path="*" element={<div>없는페이지요(404 page)</div>} />
+
+                <Route path="*" element={<div>없는페이지요 404 page</div>} />
             </Routes>
         </div>
     );
