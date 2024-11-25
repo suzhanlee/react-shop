@@ -10,10 +10,14 @@ import Shoe from "./component/Shoe.js";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./pages/Detail.js";
 import About from "./pages/About.js";
+import axios from "axios";
 
 function App() {
-    let [shoes] = useState(data);
+    let [shoes, setShoes] = useState(data);
     let navigate = useNavigate(); // hook
+    let [click, setClick] = useState(2);
+    let [productAlert, setProductAlert] = useState(false);
+    let [loading, setLoading] = useState(false);
 
     return (
         <div className="App">
@@ -47,10 +51,46 @@ function App() {
                                         );
                                     })}
                                 </Row>
+                                {productAlert == true ? (
+                                    <div>마지막 상품입니다.</div>
+                                ) : null}
+                                {loading == true ? (
+                                    <div>로딩중입니다!</div>
+                                ) : null}
+                                <button
+                                    onClick={() => {
+                                        if (click > 3) {
+                                            setProductAlert(true);
+                                        } else {
+                                            setLoading(true);
+                                            axios
+                                                .get(
+                                                    "https://codingapple1.github.io/shop/data" +
+                                                        click +
+                                                        ".json",
+                                                )
+                                                .then((result) => {
+                                                    let copy = [
+                                                        ...shoes,
+                                                        ...result.data,
+                                                    ];
+                                                    setShoes(copy);
+                                                    setClick(click + 1);
+                                                    setLoading(false);
+                                                })
+                                                .catch((e) => {
+                                                    setLoading(false);
+                                                });
+                                        }
+                                    }}
+                                >
+                                    더보기
+                                </button>
                             </Container>
                         </>
                     }
                 />
+
                 <Route
                     path="/detail/:id"
                     element={<Detail shoes={shoes}></Detail>}
