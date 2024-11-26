@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Nav } from "react-bootstrap";
+import { tab } from "@testing-library/user-event/dist/tab";
+import TabContent from "../component/TabContent";
 
 export default function Detail(props) {
     // useEffect(() => {
@@ -35,8 +38,20 @@ export default function Detail(props) {
         }
     }, [quantity]);
 
+    let [tab, setTab] = useState(0);
+    let [fade, setFade] = useState("");
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFade("end");
+        }, 100);
+        return () => {
+            setFade("");
+        };
+    }, [props.shoes]);
+
     return (
-        <div className="container">
+        <div className={"container start " + fade}>
             {alert == true ? (
                 <div className="alert alert-warning">2초 이내 구매시 할인</div>
             ) : null}
@@ -64,6 +79,41 @@ export default function Detail(props) {
                     <button className="btn btn-danger">주문하기</button>
                 </div>
             </div>
+
+            <Nav variant="tabs" defaultActiveKey="link0">
+                <Nav.Item>
+                    <Nav.Link
+                        onClick={() => {
+                            setTab(0);
+                        }}
+                        eventKey="link0"
+                    >
+                        버튼0
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link
+                        onClick={() => {
+                            setTab(1);
+                        }}
+                        eventKey="link1"
+                    >
+                        버튼1
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link
+                        onClick={() => {
+                            setTab(2);
+                        }}
+                        eventKey="link2"
+                    >
+                        버튼2
+                    </Nav.Link>
+                </Nav.Item>
+            </Nav>
+
+            <TabContent tab={tab}></TabContent>
         </div>
     );
 }
