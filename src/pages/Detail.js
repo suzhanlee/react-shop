@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Nav } from "react-bootstrap";
 import { tab } from "@testing-library/user-event/dist/tab";
 import TabContent from "../component/TabContent";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../store/cartSlice";
 
 export default function Detail(props) {
     // useEffect(() => {
@@ -41,6 +43,8 @@ export default function Detail(props) {
     let [tab, setTab] = useState(0);
     let [fade, setFade] = useState("");
 
+    let dispatch = useDispatch();
+
     useEffect(() => {
         setTimeout(() => {
             setFade("end");
@@ -76,7 +80,20 @@ export default function Detail(props) {
                     <h4 className="pt-5">{findProduct.title}</h4>
                     <p>{findProduct.content}</p>
                     <p>{findProduct.price}</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <button
+                        onClick={() => {
+                            dispatch(
+                                addProduct({
+                                    id: findProduct.id,
+                                    name: findProduct.title,
+                                    count: 3000
+                                }),
+                            );
+                        }}
+                        className="btn btn-danger"
+                    >
+                        주문하기
+                    </button>
                 </div>
             </div>
 

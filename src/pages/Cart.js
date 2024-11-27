@@ -1,6 +1,17 @@
 import { Table } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addStock } from "../store/cartSlice";
 
 export default function Cart() {
+    let stock = useSelector((state) => {
+        return state.stock;
+    });
+
+    let cart = useSelector((state) => {
+        return state.cart;
+    });
+
+    let dispatch = useDispatch();
 
     return (
         <div>
@@ -14,12 +25,22 @@ export default function Cart() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>안녕</td>
-                        <td>안녕</td>
-                        <td>안녕</td>
-                    </tr>
+                    {cart.map((c, idx) => {
+                        return (
+                            <tr key={idx}>
+                                <td>{c.id}</td>
+                                <td>{c.name}</td>
+                                <td>{c.count}</td>
+                                <button
+                                    onClick={() => {
+                                        dispatch(addStock(c.id));
+                                    }}
+                                >
+                                    +
+                                </button>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </Table>
         </div>
